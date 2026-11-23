@@ -1,3 +1,56 @@
+# prompts-next
+
+[prompts](https://github.com/terkelg/prompts) with piped and closed stdin fixed. It has the same API and the same look, and it is a drop-in replacement.
+
+prompts has had no release since 2.4.2 (October 2021). This is 2.4.2 plus the fixes merged into its `master` since then, plus two stdin fixes:
+
+- **Closed stdin no longer exits with code 0** ([terkelg/prompts#316](https://github.com/terkelg/prompts/issues/316)). When stdin ends before a prompt is answered (`< /dev/null`, CI, a pipe that runs out), 2.4.2 never settles the prompt and Node exits 0 without running the rest of your code. Now the prompt is cancelled, exactly as Ctrl+D cancels it, so `onCancel` runs and you can exit with an error.
+- **Piped answers reach each prompt** ([terkelg/prompts#427](https://github.com/terkelg/prompts/issues/427)). `printf 'one\ntwo\n' | node cli.js` gave the first prompt `onetwo` and hung on the second. Now each line answers its own prompt, CRLF line endings work, and pasting several answers at once into a terminal works too.
+
+Interactive use in a terminal is unchanged.
+
+## Install
+
+```bash
+npm install prompts-next
+```
+
+Or keep your imports and alias it:
+
+```json
+"dependencies": {
+  "prompts": "npm:prompts-next@^2.5.0"
+}
+```
+
+## Exiting with an error on closed stdin
+
+```js
+const prompts = require('prompts-next')
+
+const answers = await prompts(questions, {
+  onCancel: () => {
+    console.error('No answer. Pass --name to run without a terminal.')
+    process.exit(1)
+  }
+})
+```
+
+## Changes from prompts 2.4.2
+
+- Closed stdin cancels the waiting prompt (#316).
+- Piped and pasted answers are kept for the next prompt, and CRLF is handled (#427).
+- From prompts `master`, unreleased:
+  - type declarations are included, so you no longer need `@types/prompts` (#378, #396);
+  - `number` no longer shows `-Infinity` on arrow keys (#430);
+  - `autocompleteMultiselect` gets an arrow indicator (#323);
+  - kleur 4 (#263);
+  - Node 14 or newer (#376).
+
+Everything else, including the docs below, is the original prompts by [Terkel Gjervig](https://github.com/terkelg). MIT license.
+
+---
+
 <p align="center">
   <img src="https://github.com/terkelg/prompts/raw/master/prompts.png" alt="Prompts" width="500" />
 </p>

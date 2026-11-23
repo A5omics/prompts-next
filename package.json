@@ -1,9 +1,16 @@
 {
-  "name": "prompts",
-  "version": "2.4.2",
-  "description": "Lightweight, beautiful and user-friendly prompts",
+  "name": "prompts-next",
+  "version": "2.5.0",
+  "description": "prompts with piped and closed stdin fixed. Same API, drop-in.",
   "license": "MIT",
-  "repository": "terkelg/prompts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/A5omics/prompts-next.git"
+  },
+  "bugs": {
+    "url": "https://github.com/A5omics/prompts-next/issues"
+  },
+  "homepage": "https://github.com/A5omics/prompts-next#readme",
   "main": "index.js",
   "types": "index.d.ts",
   "author": {
@@ -33,7 +40,8 @@
     "stdin",
     "menu",
     "ask",
-    "interact"
+    "interact",
+    "pipe"
   ],
   "dependencies": {
     "kleur": "^4.0.1",
@@ -47,5 +55,8 @@
   },
   "engines": {
     "node": ">= 14"
-  }
+  },
+  "contributors": [
+    "Tom Ryan (prompts-next)"
+  ]
 }
